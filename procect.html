@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <style>
+        body {
+            background-color: rgb(179, 179, 179);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .code {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .send, .back {
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .send {
+            background-color: #64afff;
+        }
+        .send:hover {
+            background-color: #0056b3;
+        }
+        .back {
+            background-color: #af2300;
+        }
+        .back:hover {
+            background-color: #ff6e1b;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 600px) {
+            img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html"><button class="back">Back</button></a>
+        <div class="code">
+            <a href="index.html" class="close">&times;</a>
+            <div class="project">
+                <a href="CodeDow.html">
+                    <h3>How to make Post Commend for HTML, CSS, JS</h3>
+                    <img src="image/Post and Comments - Google Chrome 02.06.2024 21_00_42.png" alt="Project Image">
+                    <button class="send">Code</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function Back() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

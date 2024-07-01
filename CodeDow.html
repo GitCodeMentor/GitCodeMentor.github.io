@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+    <title>Code Download</title>
+    <style>
+        /* Import Google font - Poppins */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: #585858;
+            padding: 20px;
+        }
+        .code {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 6px;
+        }
+        .download-btn {
+            outline: none;
+            border: none;
+            color: #fff;
+            display: flex;
+            cursor: pointer;
+            padding: 16px 25px;
+            border-radius: 6px;
+            align-items: center;
+            white-space: nowrap;
+            background: #680063;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+        }
+        .download-btn:hover {
+            background: #ff20cf;
+        }
+        .download-btn.timer {
+            color: #000;
+            background: none;
+            transition: none;
+            font-size: 1.6rem;
+            pointer-events: none;
+        }
+        .download-btn.timer b {
+            color: #0e0e0e;
+            padding: 0 8px;
+        }
+        .download-btn .icon {
+            font-size: 2rem;
+        }
+        .download-btn .text {
+            font-size: 1.5rem;
+            padding-left: 10px;
+        }
+        img, video {
+            max-width: 100%;
+            margin: 20px 0;
+            display: block;
+        }
+        .close {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-bottom: 20px;
+            background-color: #1020ff;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .close:hover {
+            background-color: #0b1baf;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+            margin-bottom: 20px; /* Optional margin */
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 6px;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .comment {
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="code">
+        <a href="procect.html" class="close">Back</a>
+        <div class="project">
+            <h4>How to make comment to post</h4>
+            <h4>HTML, CSS, JS</h4>
+            <p>You can download the code for free</p>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <button class="download-btn" data-timer="10">
+            <span class="icon material-symbols-rounded">vertical_align_bottom</span>
+            <span class="text">Download Files</span>
+        </button>
+        <div class="container">
+            <h1>Post and Comments</h1>
+            <form id="commentForm">
+                <input type="text" id="usernameInput" placeholder="Your Name">
+                <textarea id="commentInput" placeholder="Write your comment here"></textarea>
+                <button type="submit">Post</button>
+            </form>
+            <div id="comments"></div>
+        </div>
+    </div>
+    <script src="script.js" defer></script>
+    <script>
+        //https://drive.google.com/uc?export=download&id=1aYiaLn3YOjL-_o5QBCy7tU1epqA6gZoi
+        const downloadBtn = document.querySelector(".download-btn");
+        const fileLink = "https://drive.google.com/drive/u/1/folders/1gm26AaRjMtqyp4rwvPPtu8M5awAgH00x";
+
+        const initTimer = () => {
+            if (downloadBtn.classList.contains("disable-timer")) {
+                return location.href = fileLink;
+            }
+            let timer = downloadBtn.dataset.timer;
+            downloadBtn.classList.add("timer");
+            downloadBtn.innerHTML = `Your download will begin in <b>${timer}</b> seconds`;
+            const initCounter = setInterval(() => {
+                if (timer > 0) {
+                    timer--;
+                    return downloadBtn.innerHTML = `Your download will begin in <b>${timer}</b> seconds`;
+                }
+                clearInterval(initCounter);
+                location.href = fileLink;
+                downloadBtn.innerText = "Your file is downloading...";
+                setTimeout(() => {
+                    downloadBtn.classList.replace("timer", "disable-timer");
+                    downloadBtn.innerHTML = `<span class="icon material-symbols-rounded">vertical_align_bottom</span>
+                                             <span class="text">Download Again</span>`;
+                }, 3000);
+            }, 1000);
+        }
+
+        downloadBtn.addEventListener("click", initTimer);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('commentForm');
+            const usernameInput = document.getElementById('usernameInput');
+            const commentInput = document.getElementById('commentInput');
+            const commentsContainer = document.getElementById('comments');
+            let comments = [];
+
+            // Load comments from localStorage
+            const savedComments = localStorage.getItem('comments');
+            if (savedComments) {
+                comments = JSON.parse(savedComments);
+                renderComments();
+            }
+
+            commentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const username = usernameInput.value.trim();
+                const commentText = commentInput.value.trim();
+                if (username === '' || commentText === '') return;
+
+                const comment = {
+                    id: new Date().getTime(), // unique ID for each comment
+                    username: username,
+                    text: commentText,
+                    timestamp: new Date().toLocaleString(),
+                    visible: true // Initial visibility
+                };
+
+                comments.push(comment);
+                localStorage.setItem('comments', JSON.stringify(comments));
+                renderComments();
+                usernameInput.value = '';
+                commentInput.value = '';
+            });
+
+            function renderComments() {
+                commentsContainer.innerHTML = '';
+                comments.forEach(function(comment) {
+                    if (comment.visible) {
+                        const commentElement = document.createElement('div');
+                        commentElement.classList.add('comment');
+                        commentElement.innerHTML = `
+                            <p><strong>${comment.username}</strong>: ${comment.text}</p>
+                            <span>${comment.timestamp}</span>
+                            <button class="delete-btn" data-id="${comment.id}">Delete</button>
+                        `;
+                        commentsContainer.appendChild(commentElement);
+                    }
+                });
+                // Attach event listener to delete buttons
+                const deleteButtons = document.querySelectorAll('.delete-btn');
+                deleteButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const id = parseInt(button.dataset.id);
+                        toggleCommentVisibility(id);
+                    });
+                });
+            }
+
+            function toggleCommentVisibility(id) {
+                comments = comments.map(comment => {
+                    if (comment.id === id) {
+                        comment.visible = !comment.visible;
+                    }
+                    return comment;
+                });
+                localStorage.setItem('comments', JSON.stringify(comments));
+                renderComments();
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Text, Image, and File</title>
+    <style>
+        body {
+            background-color: #cfcfcf;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #1b1b1b;
+            border-radius: 5px;
+        }
+        textarea, input[type="file"], button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .post {
+            border: 1px solid #1b1b1b;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .post img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        .post .file-link {
+            display: block;
+            margin-top: 10px;
+        }
+        button.delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            float: right;
+        }
+        button.delete-btn:hover {
+            background-color: #da190b;
+        }
+        .delete-selected-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+        .delete-selected-btn:hover {
+            background-color: #da190b;
+        }
+        .post-checkbox {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .back-btn{
+          background: #ff0095;
+          padding: 5px 25px;
+          border-radius: 7px;
+          margin-left: 5px;
+          color: white;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+ 
+
+
+
+
+        .login{
+  background: #fb4583;
+  padding: 5px 25px;
+  border-radius: 7px;
+  margin-left: 5px;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+
+#loginForm {
+  display: none; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #161616;
+  border-radius: 5px;
+  z-index: 9999;
+}
+
+
+
+
+
+
+
+  
+    </style>
+</head>
+<body>
+
+   
+                      
+
+    <button class="login" onclick="openLoginForm()">Admin Login</button>
+    <form class="login-container" id="loginForm" style="display: none;">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="button" class="login" onclick="login()">Login</button>
+        <button type="button" class="login" onclick="goBack()">Back</button>
+       
+        <button class="delete-selected-btn" id="openButton"   style="display: none;" onclick="deleteSelectedPosts()">Delete Selected</button>
+    </form>
+
+       
+                      
+                       
+  
+      <!--<button class="delete-selected-btn" id="openButton" onclick="deleteSelectedPosts()">Delete Selected</button>-->
+    
+     
+    <div class="container">
+        <h1>Post Text, Image, and File</h1>
+        <a class="back-btn" href="index.html">Back</a>
+        <div>
+            <label for="textInput">Enter Text:</label>
+            <textarea id="textInput" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+            <label for="imageInput">Upload Image:</label>
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+        <div>
+            <label for="fileInput">Upload File:</label>
+            <input type="file" id="fileInput">
+        </div>
+        <div>
+            <input type="checkbox" id="allowDeletion">
+            <label for="allowDeletion">Allow Deletion by Others</label>
+        </div>
+        <button class="login" onclick="postContent()">Post</button>
+        <div id="postedContent"></div>
+       
+        
+    </div>
+
+  
+
+    <script>
+ function openLoginForm() {
+    var loginForm = document.getElementById('loginForm');
+    loginForm.style.display = 'block';
+}
+
+function goBack() {
+    var loginForm = document.getElementById('loginForm');
+    loginForm.style.display = 'none';
+}
+
+function login() {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var message = document.getElementById('message');
+    var loginForm = document.getElementById('loginForm');
+    var openButton = document.getElementById('openButton');
+
+    if (username === '1234' && password === '1234') {
+        console.log("True");
+        alert('Login successful!');
+    
+        openButton.style.display = 'block';
+    } else {
+        console.log("False");
+        alert('Invalid username or password. Please try again.');
+        message.textContent = 'Invalid username or password. Please try again.';
+        message.style.color = 'red';
+        openButton.style.display = 'none';
+    }
+}
+
+function openPage() {
+    alert('You clicked Open!');
+}
+
+
+        let posts = [];
+
+        // Check if there are posts in local storage and load them
+        if (localStorage.getItem('posts')) {
+            posts = JSON.parse(localStorage.getItem('posts'));
+            displayPosts();
+        }
+
+        // Function to handle post submission
+        function postContent() {
+            const text = document.getElementById("textInput").value;
+            const imageFile = document.getElementById("imageInput").files[0];
+            const file = document.getElementById("fileInput").files[0];
+            const allowDeletion = document.getElementById("allowDeletion").checked;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageDataURL = imageFile ? event.target.result : null;
+                const fileName = file ? file.name : null;
+                const fileURL = file ? event.target.result : null;
+                const post = { text: text, image: imageDataURL, fileName: fileName, fileURL: fileURL, allowDeletion: allowDeletion };
+                posts.push(post);
+                savePosts();
+                displayPosts();
+                resetInputs();
+            };
+
+            if (imageFile) {
+                reader.readAsDataURL(imageFile);
+            } else if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                reader.readAsText(new Blob([]));
+            }
+        }
+
+        // Function to reset input fields
+        function resetInputs() {
+            document.getElementById("textInput").value = "";
+            document.getElementById("imageInput").value = "";
+            document.getElementById("fileInput").value = "";
+            document.getElementById("allowDeletion").checked = false;
+        }
+
+        // Function to save posts to local storage
+        function savePosts() {
+            localStorage.setItem('posts', JSON.stringify(posts));
+        }
+
+        // Function to display posts
+        function displayPosts() {
+            const postedContent = document.getElementById("postedContent");
+            postedContent.innerHTML = "";
+            posts.forEach((post, index) => {
+                const div = document.createElement("div");
+                div.classList.add("post");
+                div.innerHTML = `
+                    <input type="checkbox" class="post-checkbox" id="postCheckbox${index}">
+                    <p>${post.text}</p>
+                    ${post.image ? `<img src="${post.image}" alt="Uploaded Image">` : ''}
+                    ${post.fileName ? `<a href="${post.fileURL}" download="${post.fileName}" class="file-link">Download File: ${post.fileName}</a>` : ''}
+                    ${post.allowDeletion ? `<button class="delete-btn" onclick="deletePost(${index})">Delete</button>` : ''}
+                `;
+                postedContent.appendChild(div);
+            });
+        }
+
+        // Function to delete a post
+        function deletePost(index) {
+            posts.splice(index, 1);
+            savePosts();
+            displayPosts();
+        }
+
+        // Function to delete selected posts
+        function deleteSelectedPosts() {
+            const selectedCheckboxes = document.querySelectorAll(".post-checkbox:checked");
+            const selectedIndexes = Array.from(selectedCheckboxes).map(checkbox => Number(checkbox.id.replace('postCheckbox', '')));
+            posts = posts.filter((_, index) => !selectedIndexes.includes(index));
+            savePosts();
+            displayPosts();
+        }
+    </script>
+</body>
+</html>

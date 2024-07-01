@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Quiz</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 48px;
+            color: #333;
+        }
+        .lang-button {
+            display: block;
+            width: 200px;
+            padding: 15px;
+            margin: 10px;
+            font-size: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .lang-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Language Learning Quiz</h1>
+        <p>Select a language to start the quiz</p>
+    </div>
+    <a href="html,css,js.html" class="lang-button">HTML</a>
+    <a href="html,css,js.html" class="lang-button">CSS</a>
+    <a href="html,css,js.html" class="lang-button">JavaScript</a>
+    <a href="" class="lang-button" id="no" onclick="no()">C++</a>
+    <a href="" class="lang-button" id="no" onclick="no()">Java</a>
+    <a href="" class="lang-button" id="no" onclick="no()">C#</a>
+    <a href="" class="lang-button" id="no" onclick="no()">Python</a>
+    <a href="index.html" class="lang-button"  >Back</a>
+    
+    <script>
+      function no() {
+        alert("Not ready yet")
+      }
+    </script>
+</body>
+</html>
